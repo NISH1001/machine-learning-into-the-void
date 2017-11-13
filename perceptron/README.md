@@ -93,6 +93,12 @@ a neuron outputs a real number.
 # Let's build a perceptron
 We will be using `python3` and `numpy`. Other libraries/modules can be installed accordingly from `pip3`.
 
+## Import numpy
+Numpy is a python library for performing vector (matrix) operations efficiently.
+```python
+import numpy as np
+```
+
 ## Training Inputs
 The inputs are **numpy arrays**
 ```python
@@ -117,7 +123,7 @@ This weight is actually obtained after training the perceptron. The above is wha
 ## Sigmoid
 ```python
 def sigmoid(x):
-    return 1 / (1 + exp(-x))
+    return 1 / (1 + np.exp(-x))
 ```
 
 ## Prediction
@@ -137,3 +143,108 @@ array([[ 0.5       ],
 So, **OR Gate** is working nicely. The perceptron is giving us the output very high for any input that contains a **1**.
 
 > Hence, perceptron is all about finding the real values of the weights.
+
+
+## Training
+In the above context, we have used already available weights from a trained system. 
+But we don't get such *stable* weights always. And randomly guessing or doing brute-force solution is pretty much expensive (computationally).
+
+Here, we just have **2 weights** for which brute force might work. But that's  just a childish imagination - having just few weights.
+
+In real case scenario, we have **many** weights. I repeat **many**. 
+So, what we do is start from random values of weights and use certain process to find our way to the weights that seem good enough for  the system.
+
+### Random weights
+```python
+>> synapse = 2*np.random.random((2, 1)) - 1
+array([[-0.67238843],
+       [ 0.43981246]])
+```
+
+Using the random weights, we try the prediction.
+```python
+>> y = np.dot(X_train, synapses)
+array([[ 0.        ],
+       [ 0.43981246],
+       [-0.67238843],
+       [-0.23257597]])
+>> z = sigmoid(y)
+array([[ 0.5       ],
+       [ 0.60821434],
+       [ 0.33796224],
+       [ 0.44211669]])
+```
+
+>> Oh shit! This is not good. 
+
+Don't worry if the prediction is mayhem. We have a technique to learn the weights through error in the prediction.
+
+
+### Errors
+What we know is what the output should be for each training example from **Y_train**.
+[Core gist of **supervised learning**]
+So, we have a metric to how much off the predicted value is from what is expected (as from `Y_train`).
+
+One of the ways for calculating the error is just using the difference:
+```bash
+error = target - prediction
+```
+
+In machine learning world, we call this a [cost function](https://stackoverflow.com/a/40445197/4287672)
+
+```python
+>> errors = Y_train - z
+array([[ 0.5       ],
+       [0.39178566],
+       [0.66203776],
+       [0.55788331]])
+```
+
+
+### Update
+Using the error, we can know how much we should add/subtract to the corresponding weight in order to approach the target value.
+
+1. If the error is positive, we have to add the error to the weight by that much amount.
+2. If the error is negative, we have to subtract the error from the weight by that much amount.
+
+```bash
+new_weight -> old_weight + error
+```
+
+This is vaguely the rule for updating the weight
+
+Generally,
+```bash
+wi = wi + error
+```
+
+However, the `error` factor isn't solely responsible for the weight. If error is alone responsible for the update, the learning is pretty much very slow.
+Each weight is also contributed by the corresponding input it has connection to. So, in some ways inputs do influence the corresponding weights.
+
+The intuition behind this **input** coming into the play is relatable.
+
+> Say you have a metal rod. In normal condition, when you touch the rod it doesn't really have influence on your reaction.  
+When you touch a **hot rod**, you immediately withdraw you hand. So, in some ways the synapse is wired to respond to the
+*hotness* or *coldness* of the rod itself.  The material from which rod is made can be considered as weight here.
+
+So,
+```bash
+your_reaction -> (coldness/hotness of rod) + (rod's material)
+```
+
+This intuition is just a naive one which I have thought of.
+
+Remember this the whole time or on every machine learing processes:
+> Inputs affect the outputs.
+
+#### Back to square one - Let's update the weight again.
+
+```bash
+wi = wi + error * input
+```
+
+So,
+```bash
+w1  ->  w1 + error * x1
+w2  ->  w2 + error * x2
+```
