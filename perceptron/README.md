@@ -8,5 +8,5 @@ We know, a neuron fires (or does not fire) based on its input stimuli. So, a per
 input ---> process ---> output (prediction)
 ```
 
-[Introduction](1-perceptron-introduction.md)
-[Training](2-perceptron-training.md)
+[Introduction](1-perceptron-introduction.md)  
+[Training](2-perceptron-training.md)  
