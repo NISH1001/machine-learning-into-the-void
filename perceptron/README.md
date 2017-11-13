@@ -300,3 +300,10 @@ array([[ 1.21992107],
 array([[-0.55039632],
        [ 0.53477936]])
 ```
+
+### Final Note
+Run this update rule for many iterations and you'll get the optimial weights.
+
+>> The *optimial weight* I have been mentioning is just one of the configurations of weights for which the model accurately predicts the output.
+However it is not guaranteed that the system/model converges to a global optmial configuration. This is the intuition behind [Gradient Descent](https://en.wikipedia.org/wiki/Gradient_descent)
+
