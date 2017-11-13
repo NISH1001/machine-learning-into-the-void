@@ -248,3 +248,55 @@ So,
 w1  ->  w1 + error * x1
 w2  ->  w2 + error * x2
 ```
+
+For each training set (X_train, Y_train):
+
+```bash
+w1  -> w1 + error1 * x1 + error2 * x1 + ...     ==> w1 + (error1 + error2 +...) * x1
+w2  -> w2 + error1 * x2 + error2 * x2 + ...     ==> w2 + (error1 + error2 +...) * x2
+```
+
+Generally,
+```bash
+wi  -> wi + average_error * xi
+```
+
+### Learning rate
+*So far so good, heh?*  
+
+Yes. But no. Here's the problem. If we did follow the above rule, then we run into one specific problem.
+
+We could just keep on oscillating here and there. At one time the error might be positive, at another time it might be negative.
+The weights might just be like a pendulum and their values oscillating here and there.
+
+So, we introduce a parameter ( [Hyperparameter](https://en.wikipedia.org/wiki/Hyperparameter) that directly affects this behaviour.
+One of such parameters is learning rate that tells by how much factor the  weights have to be updated to get to the **optimal** configuration.
+
+There are two things that matter:
+
+1. If learning rate is too big, we might miss the optimal configuration. We might be oscillating here and there.
+2. If learning rate is too small, it might take eternity to reach the desired weights.
+
+> Learning rate is generally represented by Greek letter called *eta*.
+
+```python
+>> eta = 0.01
+```
+
+### Perceptron Learning Rule (Finally)
+
+```bash
+wi  ->  wi + eta * average_error * xi
+```
+
+```python
+>> delta = np.dot( X_train.T, errors)
+array([[ 1.21992107],
+       [ 0.94966897]])
+```
+
+```python
+>> synapses +=  eta * delta
+array([[-0.55039632],
+       [ 0.53477936]])
+```
