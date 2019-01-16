@@ -1,0 +1,6 @@
+dataset/
+tflogs/
+models/
+*.jpg
+*.jpeg
+*.JPG
